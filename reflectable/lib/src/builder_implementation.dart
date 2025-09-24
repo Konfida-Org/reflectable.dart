@@ -61,7 +61,7 @@ enum WarningKind {
 
 class _ReflectionWorld {
   final Resolver resolver;
-  final List<LibraryElementImpl> libraries;
+  final List<LibraryElement> libraries;
   final AssetId generatedLibraryId;
   final List<_ReflectorDomain> reflectors;
   final LibraryElement reflectableLibrary;
@@ -103,7 +103,8 @@ class _ReflectionWorld {
     }
 
     // Fill in [_subtypesCache].
-    for (LibraryElementImpl library in libraries) {
+    for (LibraryElement libraryGeneric in libraries) {
+      final library = libraryGeneric as LibraryElementImpl;
       void addInterfaceElement(InterfaceElement interfaceElement) {
         InterfaceType? supertype = interfaceElement.supertype;
         if (interfaceElement.mixins.isEmpty) {
@@ -3777,7 +3778,7 @@ int _processedEntryPointCount = 0;
 
 class BuilderImplementation {
   late final Resolver _resolver;
-  var _libraries = <LibraryElementImpl>[];
+  var _libraries = <LibraryElement>[];
   final _librariesByName = <String, LibraryElement>{};
   late final bool _formatted;
   late final List<WarningKind> _suppressedWarnings;
@@ -4883,7 +4884,7 @@ void initializeReflectable() {
     AssetId inputId,
     AssetId generatedLibraryId,
     LibraryElement inputLibrary,
-    List<LibraryElementImpl> visibleLibraries,
+    List<LibraryElement> visibleLibraries,
     bool formatted,
     List<WarningKind> suppressedWarnings,
   ) async {
